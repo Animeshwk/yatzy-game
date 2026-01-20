@@ -3,72 +3,128 @@
 The problem that this code is designed to solve is
 explained [here](https://sammancoaching.org/kata_descriptions/yatzy.html)
 
-The codebase contains a Java and a Kotlin implementation. Choose one to refactor.
+The codebase contains a Java implementation.
 
-## Run the tests
 
-```shell
-# linux
-./gradlew check
-```
+## Getting Started
 
-```shell
-# windows
-.\gradlew.bat check
-```
-
-## Stack
+**Prerequisites**
 
 - Java 17
-- Gradle
+- Maven 3.9.2 or Gradle
 - AssertJ
 - Junit5
 
-**Objectives**
 
-- Treat this project as a professional, production-level codebase.
-- Ensure all code changes prioritize quality, maintainability, and scalability.
 
-  > Your task is to score a GIVEN roll in a GIVEN category. You do NOT have to program the random dice rolling. The game is NOT played by letting the computer choose the
-  highest scoring category for a given roll.
-- **Requirements**
-    - **Analyze and Improve Existing Code**
-        - Apply *Clean Code* principles to refactor the code.
-            - Enhance readability and structure.
-            - Eliminate code smells and anti-patterns.
-            - Improve testability and maintainability.
-    - **Feature Addition**
-        - **Implement Game Simulation**
-            - Modify the application to simulate rolling dice **three times**, emulating an actual Yatzy game session.
-            - After each roll, calculate the score and determine the corresponding category based on the dice outcome.
-            - Output the results to the standard output stream using the following format:
-            ```text
-            EXAMPLE OUTPUT:
-              
-            1. ROLL
-            You've chosen YATZY as score category
-            Score: 50
-            You've got a YATZY
-              
-            2. ROLL
-            You've chosen THREE_OF_A_KIND as score category
-            Score: 0
-            You've got NOTHING
-              
-            3. ROLL
-            You've chosen SMALL_STRAIGHT as score category
-            Score: 15
-            You've got a SMALL_STRAIGHT
-            ```
-        - **Enhance Output Configurability**
-            - Refactor the code to allow easy modification of the output format.
-            - Implement flexibility to change the output stream (e.g., console, file, network socket) with minimal code adjustments.
-- **Additional Requirements**
-    - **Documentation**
-        - Document all code changes thoroughly.
-        - Update or create a README file explaining your enhancements and instructions for running the application.
-    - **Testing**
-        - Write unit tests to cover both existing and new functionalities.
-        - Ensure all tests pass before submission.
-    - **Design Patterns**
-        - Consider applying relevant design patterns to improve code structure and efficiency.
+## Overview
+
+- This project implements Yatzy scoring as a set of interchangeable **Scoring Strategies**. 
+- Each scoring category (Chance, Yatzy, Ones… Full House) is implemented as a class that conforms to a single interface:
+  > **DiceScoringRule#score(int... dice)**
+
+- The client (UI / API / CLI / test harness) uses YatzyGame as the entry point and supplies parameters:
+  - a dice roll (int[] dice)
+  - a scoring category (Category category)
+
+**YatzyGame** then uses a **RuleRegistry** to resolve the appropriate rule strategy and computes the score.
+
+
+## Build and Test
+
+**Maven**
+- To execute test
+  > mvn clean test
+- To Run
+  > mvn exec:java -Dexec.mainClass="YatzyRunner"
+
+**Gradle**
+- To execute test
+  > ./gradlew clean test
+- To Run
+  > ./gradlew run
+
+
+
+## Key Concepts
+
+- **Strategy Pattern (Scoring Rules)**
+-- Each scoring rule is a separate class:
+    - **ChanceScoringRule**
+    - **YatzyScoringRule**
+    - **DiceFaceScoringRule**
+    - **PairScoringRule**
+    - **StraightScoringRule**
+    - **FullHouseScoringRule**
+
+
+- **Registry Pattern (Category → Rule)**
+    - **RuleRegistry** maps each **Category** to the correct **DiceScoringRule** strategy.
+
+
+- **Builder Pattern (Output Model)**
+  - A **Roll** is created using **Roll.builder()** to produce an immutable output payload.
+
+
+- **Output Strategy (Console / File / UI)**
+    -- OutputStrategy abstracts how results are displayed. 
+  - Today we use Console Strategy:
+    >**OutputStrategies.consoleOutputStrategy()** 
+
+
+
+## Architecture
+
+   - **High-level components:**
+       - **YatzyGame** — entry point used by the client.
+       - **Category** — enum representing the scoring category chosen by the player
+       - **RuleRegistry** — resolver that returns a **DiceScoringRule** for a category
+       - **DiceScoringRule** — common interface for all scoring strategies
+       - **Scoring Rules** — concrete strategy implementations listed above
+       - **Roll** — value object (builder) containing result data
+       - **OutputStrategy** — prints the Roll
+
+
+## How Scoring Flow Works
+
+- When play(dice, category) is called:
+    - **YatzyGame** creates a RuleRegistry
+    - The selected **Category** is resolved to a **DiceScoringRule** strategy
+    - The strategy computes a score using **score(dice)**
+    - A **Roll** object is constructed via Roll.builder()
+    - The result is printed via **OutputStrategy**
+
+    
+
+## Usage
+
+**Client Example**
+
+Client application (CLI/API/UI) should call YatzyGame as below:
+
+    public class ClientApp {
+        public static void main(String[] args) {
+
+            int[] dice = {2, 2, 3, 3, 3};
+            Category category = Category.FULL_HOUSE;
+
+            YatzyGame game = new YatzyGame();
+            game.play(dice, category);
+        }
+    }
+
+**Sample Output**
+
+Example output (depends on your **consoleOutputStrategy()** implementation and dice values provided):
+
+    ROLL
+    You've chosen FULL_HOUSE as score category
+    Score: 13
+    You've got FULL_HOUSE
+
+OR
+
+    ROLL
+    You've chosen FULL_HOUSE as score category
+    Score: 0
+    You've got NOTHING
