@@ -85,7 +85,7 @@ public class PairScoringRule implements DiceScoringRule {
         return 0;
     }
 
-    public static int twoPair(int[] counts) {
+    public int twoPair(int[] counts) {
         int pairsFound = 0;
         int total = 0;
 

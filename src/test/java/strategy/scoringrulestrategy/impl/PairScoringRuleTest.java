@@ -94,25 +94,25 @@ class PairScoringRuleTest {
     @Test
     @DisplayName("twoPair(counts) returns sum of two highest pairs when two pairs exist")
     void twoPair_static_returnsSumOfTwoHighestPairs() {
-        int[] counts = countsFromDice(3, 3, 5, 5, 6);
+        DiceScoringRule rule = new PairScoringRule(2);
 
-        assertEquals(16, PairScoringRule.twoPair(counts));
+        assertEquals(16, rule.score(3, 3, 5, 5, 6));
     }
 
     @Test
     @DisplayName("twoPair(counts) returns 0 when fewer than two pairs exist")
     void twoPair_static_returns0_whenOnlyOnePair() {
-        int[] counts = countsFromDice(3, 3, 2, 4, 6);
+        DiceScoringRule rule = new PairScoringRule(2);
 
-        assertEquals(0, PairScoringRule.twoPair(counts));
+        assertEquals(0, rule.score(3, 3, 2, 4, 6));
     }
 
     @Test
     @DisplayName("twoPair(counts) uses >=2 rule: triple contributes as a pair (current behavior)")
     void twoPair_static_tripleCountsAsPair() {
-        int[] counts = countsFromDice(3, 3, 3, 5, 5);
+        DiceScoringRule rule = new PairScoringRule(2);
 
-        assertEquals(16, PairScoringRule.twoPair(counts));
+        assertEquals(16, rule.score(3, 3, 3, 5, 5));
     }
 
     // Local helper for tests
