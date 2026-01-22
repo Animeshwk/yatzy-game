@@ -31,6 +31,9 @@ class FullHouseScoringRuleTest {
 
         // Three-of-a-kind only (no pair)
         assertEquals(0, rule.score(4, 4, 4, 2, 6));
+
+        // Three-of-a-kind only (no pair)
+        assertEquals(0, rule.score(4, 4, 4, 4, 4));
     }
 }
 

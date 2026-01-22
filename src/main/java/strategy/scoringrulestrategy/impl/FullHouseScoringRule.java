@@ -80,7 +80,7 @@ public class FullHouseScoringRule implements DiceScoringRule {
                 pairFace = face;
             }
 
-            if (count == 3) {
+            if (count == 3 && pairFace != face) {
                 tripleFace = face;
             }
         }
