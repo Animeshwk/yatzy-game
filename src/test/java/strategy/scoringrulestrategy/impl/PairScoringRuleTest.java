@@ -114,14 +114,5 @@ class PairScoringRuleTest {
 
         assertEquals(16, rule.score(3, 3, 3, 5, 5));
     }
-
-    // Local helper for tests
-    private static int[] countsFromDice(int... dice) {
-        int[] c = new int[6];
-        for (int d : dice) {
-            c[d - 1]++;
-        }
-        return c;
-    }
 }
 

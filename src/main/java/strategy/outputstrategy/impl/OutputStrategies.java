@@ -1,5 +1,6 @@
 package strategy.outputstrategy.impl;
 
+import builder.Roll;
 import strategy.outputstrategy.OutputStrategy;
 
 
@@ -23,7 +24,7 @@ public final class OutputStrategies {
     /**
      * No-argument Constructor
      */
-    private OutputStrategies() {};
+    private OutputStrategies() {}
 
 
     /**
