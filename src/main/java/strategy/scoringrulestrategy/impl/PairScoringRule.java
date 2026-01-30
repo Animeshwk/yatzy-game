@@ -15,14 +15,6 @@ import static utils.YatzyUtils.counts;
  *   <li><b>Two Pair</b>: {@code pairValue == 2} → scores the two highest distinct pairs.</li>
  *   <li><b>N-of-a-kind</b>: {@code pairValue >= 3} → scores the highest face with at least {@code pairValue} occurrences.</li>
  * </ul>
- *
- * <h2>Scoring</h2>
- * <ul>
- *   <li><b>One Pair</b>: returns {@code highestFace * 2}, or {@code 0} if no pair exists.</li>
- *   <li><b>Two Pair</b>: returns {@code (highestPairFace * 2) + (secondHighestPairFace * 2)},
- *       or {@code 0} if fewer than two pairs exist.</li>
- *   <li><b>N-of-a-kind</b>: returns {@code highestFace * pairValue}, or {@code 0} if no such group exists.</li>
- * </ul>
  */
 
 public class PairScoringRule implements DiceScoringRule {
@@ -85,6 +77,19 @@ public class PairScoringRule implements DiceScoringRule {
         return 0;
     }
 
+    /**
+     * Computes the score for the <em>Two kotlin.Pair</em> category from a face-frequency array.
+     * <p>
+     * This method finds the two highest distinct faces with at least two occurrences each,
+     * and returns the sum of both pairs:
+     * {@code (firstPairFace * 2) + (secondPairFace * 2)}.
+     *
+     * <p>
+     * The scan proceeds from face 6 down to 1, ensuring the highest pairs are selected.
+     *
+     * @param counts an array of face frequencies, where {@code counts[face - 1]} is the count for that face
+     * @return the two-pair score if two pairs are present; otherwise {@code 0}
+     */
     public int twoPair(int[] counts) {
         int pairsFound = 0;
         int total = 0;

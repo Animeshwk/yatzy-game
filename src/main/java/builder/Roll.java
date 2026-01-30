@@ -10,33 +10,6 @@ package builder;
  *   <li>the numeric score computed for the roll</li>
  *   <li>the user-facing message describing what category result was achieved</li>
  * </ul>
- *
- * <p>
- * Instances are immutable: all fields are {@code final} and can only be set via the {@link Builder}.
- * This makes {@code Roll} safe to share between components without defensive copying.
- *
- * <h2>Construction</h2>
- * <p>
- * Create instances using {@link #builder()}:
- * <pre>{@code
- * Roll roll = Roll.builder()
- *     .chosenCategory("You've chosen CHANCE as score category")
- *     .score(17)
- *     .categoryResult("You've got CHANCE")
- *     .build();
- * }</pre>
- *
- * <h2>String representation</h2>
- * <p>
- * {@link #toString()} produces a multi-line, user-friendly format:
- * <pre>
- * ROLL
- * &lt;chosenCategory&gt;
- * &lt;score&gt;
- * &lt;categoryResult&gt;
- * </pre>
- * This is particularly useful when output strategies print a {@code Roll} directly
- * (e.g., {@code System.out.println(roll)}).
  */
 
 public final class Roll {

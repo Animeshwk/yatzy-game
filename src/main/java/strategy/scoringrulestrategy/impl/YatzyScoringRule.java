@@ -8,32 +8,6 @@ import strategy.scoringrulestrategy.DiceScoringRule;
  * <p>
  * A Yatzy is achieved when <strong>all five dice show the same face value</strong>.
  * When the condition is satisfied, this rule awards a fixed score of {@code 50}.
- *
- * <h2>Behavior</h2>
- * <ul>
- *   <li>Returns {@code 50} if and only if:
- *     <ul>
- *       <li>{@code dice} is non-null,</li>
- *       <li>{@code dice.length == 5}, and</li>
- *       <li>all five values are identical.</li>
- *     </ul>
- *   </li>
- *   <li>Returns {@code 0} for any of the following:
- *     <ul>
- *       <li>{@code dice == null}</li>
- *       <li>{@code dice.length != 5}</li>
- *       <li>not all dice match the first die</li>
- *     </ul>
- *   </li>
- * </ul>
- *
- * <h2>Examples</h2>
- * <pre>{@code
- * score(6, 6, 6, 6, 6) == 50
- * score(6, 6, 6, 6, 5) == 0
- * score(1, 1, 1, 1)    == 0   // not exactly 5 dice
- * score((int[]) null)  == 0
- * }</pre>
  */
 
 public class YatzyScoringRule implements DiceScoringRule {

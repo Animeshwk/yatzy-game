@@ -20,12 +20,6 @@ public class ChanceScoringRule implements DiceScoringRule {
 
     /**
      * Computes the Chance score for the given dice by summing all values.
-     * <p>
-     * Examples:
-     * <pre>{@code
-     * score(1, 2, 3, 4, 5) == 15
-     * score() == 0
-     * }</pre>
      *
      * @param dice the dice values to sum
      * @return the sum of all dice values; {@code 0} if {@code dice} is empty

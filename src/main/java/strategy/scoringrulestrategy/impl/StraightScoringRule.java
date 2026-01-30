@@ -14,25 +14,6 @@ import utils.YatzyUtils;
  *   <li><b>Large straight</b> ({@code startFace == 2}): checks for faces {@code 2,3,4,5,6}
  *       and scores {@code 20}.</li>
  * </ul>
- *
- * <h2>Behavior</h2>
- * <ul>
- *   <li>If {@code startFace == 1}, the rule evaluates a small straight.</li>
- *   <li>If {@code startFace == 2}, the rule evaluates a large straight.</li>
- *   <li>For any other {@code startFace} value, the score is {@code 0}.</li>
- *   <li>The straight condition requires each expected face to occur <b>exactly once</b>.</li>
- * </ul>
- *
- * <h2>Examples</h2>
- * <pre>{@code
- * DiceScoringRule small = new StraightScoringRule(1);
- * small.score(1, 2, 3, 4, 5) == 15
- * small.score(1, 2, 3, 4, 6) == 0
- *
- * DiceScoringRule large = new StraightScoringRule(2);
- * large.score(2, 3, 4, 5, 6) == 20
- * large.score(1, 3, 4, 5, 6) == 0
- * }</pre>
  */
 
 public class StraightScoringRule implements DiceScoringRule {
